@@ -1,4 +1,6 @@
-IotChallenge
+Melbourne/Telstra IoT Challenge 2015
 ====
 
-Group repo for Telstra Iot Challenge
+Smart Expressions web app built with node js. Integration with IBM's watson.
+
+
