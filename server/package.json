@@ -1,0 +1,13 @@
+{
+	"name": "iot-server",
+	"description": "Server for Emoticons project",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": 
+	{
+		"express": "*",
+		"faye": "*",
+		"mysql": "2.0.0-alpha8",
+		"googlemaps":"1.0.2"
+	}
+}

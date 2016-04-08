@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SmartExpressions</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- helper sources-->
+    <script src="js/helper.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span>                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SmartExpressions</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a href="/devices">Devices</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container spacer">
+        <form class="form-inline">
+            <!-- Device Picker -->
+            <div class="dropdown">
+                <div class="form-group">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="deviceSelector" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                        Select Device <span class="caret"></span>
+                    </button>
+                    <ul id="deviceOptions" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    </ul>
+                </div>
+                <span id='deviceName' class="label label-success large"></span>
+                <span id='deviceVoltage' class="label label-success large"></span>
+                <span id='deviceLocation' class="label label-info large hidden"></span>
+            </div>
+        </form>
+
+        <div id="devicePane" class="hidden">
+            <div class='form-group'>
+                <button class="btn btn-default" type="button" id="reloadButton">
+                    Reload Graphs</button>
+            </div>
+
+            <div id="chartLoadingMessage" class="alert alert-info" role="alert">
+                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+                <span class="sr-only">Info:</span> Loading data...
+            </div>
+
+            <div id="chartErrorMessage" class="alert alert-danger hidden" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span> Could not find any data for selected device.
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Button presses over selected period</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="feedback_chart" style="width: 100%; height: 400px"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="donutchart" style="width: 100%; height: 400px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Twitter Display
+            ================================================== -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Twitter Analytics</div>
+                <div class="panel-body">
+                    <label>Sentiment</label>
+                    <button id="tw_all" type="button" class="btn btn-all">All</button>
+                    <button id="tw_pos" type="button" class="btn btn-warning">Happy</button>
+                    <button id="tw_neu" type="button" class="btn btn-default">Neutral</button>
+                    <button id="tw_neg" type="button" class="btn btn-danger">Sad</button>
+                    <br />
+                    <br />
+                    <div>
+                        <label> Query:</label>
+                        <input type="radio" id="useLocation" name="qtype" value="1" checked="checked" />
+                        <label for="useLocation">Location</label>
+                        <input type="radio" id="useCustom" name="qtype" value="2" />
+                        <label for="useLocation">Custom</label>
+                        <input id="customQuery" disabled="true">
+                        <br />
+                    </div>
+                    <div id="twitterLoadingMessage" class="alert alert-info hidden" role="alert">
+                        <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+                        <span class="sr-only">Info:</span> Loading data...
+                    </div>
+
+                    <div id="twitter_display"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="mapPane">
+            <div class="panel panel-default">
+                <div id="map" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer navbar-inverse">
+        <div class="container">
+            <p class="text-muted">&copy; 2015 SmartExpressions</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- Graphing JavaScript
+    ================================================== -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="js/graphs.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1sEU5ySPnIvsKHkP8piF1CK3n5l-YBww&callback=initMap" async
+    defer></script>
+
+
+    <script type="text/javascript">
+        var d_id = getParameterByName('d_id');
+		var activeDevice;
+
+		// Get the list of devices that can be selected
+		$
+				.get(
+						"api/devices",
+						function(devices) {
+							for (i = 0; i < devices.length; i++) {
+								$("#deviceOptions").append(
+										"<li><a href='?d_id=" + devices[i].id
+												+ "'>" + devices[i].description
+												+ "</a></li>");
+
+								if (d_id == devices[i].id) {
+									$('#deviceName').html(
+											devices[i].description);
+									$('#deviceLocation').html(
+											devices[i].location);
+
+									var voltage = devices[i].voltage;
+									if (parseFloat(voltage) < 2.3) {
+										$('#deviceVoltage').html('Status: Recharge required (' + voltage + 'v)');
+										$('#deviceVoltage').removeClass('label-success');
+										$('#deviceVoltage').addClass('label-danger');
+									} else {
+										$('#deviceVoltage').html('Status: Good (' + voltage + 'v)');
+									}
+									activeDevice = devices[i];
+								}
+							}
+						});
+
+		$('#reloadButton').on('click', function(e) {
+			drawOnLoad();
+		});
+
+		google.load('visualization', '1.1', {
+			packages : [ 'line', 'map', 'annotationchart' ]
+		});
+		google.load("visualization", '1', {
+			packages : [ "corechart" ]
+		});
+
+		if (d_id != '') {
+			$("#devicePane").removeClass('hidden');
+			$("#mapPane").addClass('hidden')
+			google.setOnLoadCallback(drawOnLoad);
+		}
+    </script>
+
+
+    <!-- Twitter Analytics
+    ================================================== -->
+    <script src="js/twitter_analytics.js"></script>
+    <script>
+        var query = "Melbourne";
+
+		$("#tw_pos").click(function() {
+			tw_api_call($("input[name='qtype']:checked").val(),$("#customQuery").val(), activeDevice.location, 1, function(res) {
+				$("#twitter_display").empty();
+				$("#twitter_display").append(renderAll(res));
+			});
+		});
+
+		$("#tw_neu").click(function() {
+			tw_api_call($("input[name='qtype']:checked").val(),$("#customQuery").val(), activeDevice.location, 2, function(res) {
+				$("#twitter_display").empty();
+				$("#twitter_display").append(renderAll(res));
+			});
+		});
+
+		$("#tw_neg").click(function() {
+			tw_api_call($("input[name='qtype']:checked").val(),$("#customQuery").val(), activeDevice.location, 3, function(res) {
+				$("#twitter_display").empty();
+				$("#twitter_display").append(renderAll(res));
+			});
+		});
+		$("#tw_all").click(function() {
+			tw_api_call($("input[name='qtype']:checked").val(),$("#customQuery").val(), activeDevice.location, 0, function(res) {
+				$("#twitter_display").empty();
+				$("#twitter_display").append(renderAll(res));
+			});
+		});
+
+		$("input[name='qtype']").on("change", function () {
+            if(this.value=='1') {
+                $("#customQuery").prop('disabled', true);
+                        $("#customQuery").val("");
+            } else{
+                $("#customQuery").prop('disabled', false);
+            }
+    	});
+    </script>
+</body>
+
+</html>
